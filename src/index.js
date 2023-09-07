@@ -1,18 +1,17 @@
-import store  from "./store/configureStore";
+import configureAppStore  from "./store/configureStore";
 import * as actionCreator from "./store/bug";
 // store.state = 1;
 
 // console.log(store)
-// const store = configureStore();
-// console.log(store)
+const store = configureAppStore();
 
 store.subscribe(() => {
   console.log("store changed");
 });
-store.dispatch(actionCreator.bugAdded("Bug 1"));
-store.dispatch(actionCreator.bugAdded("Bug 2"));
-store.dispatch(actionCreator.bugAdded("Bug 3"));
-store.dispatch(actionCreator.bugResolved("Bug 1"));
+store.dispatch(actionCreator.bugAdded({description:"Bug 1"}));
+store.dispatch(actionCreator.bugAdded({description:"Bug 2"}));
+store.dispatch(actionCreator.bugAdded({description:"Bug 3"}));
+store.dispatch(actionCreator.bugResolved({id:1}));
 
 console.log(store.getState());
 
