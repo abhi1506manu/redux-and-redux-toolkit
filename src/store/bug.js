@@ -1,37 +1,33 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 const bugUpdated = createAction("bugUpdated");
-console.log(bugUpdated({id:1}))
+console.log(bugUpdated({ id: 1 }));
 
 //Action creator
 export const bugAdded = createAction("bugAdded");
-  
-export const bugResolved = createAction("bugResolve")
-export const bugRemove = createAction("bugRemove")
+export const bugResolved = createAction("bugResolve");
+export const bugRemove = createAction("bugRemove");
 
-  //reducers
-  let lastId = 0;
-export default function reducer(state = [], action) {
-  switch (action.type) {
-    case bugAdded.type:
-      return [
-        ...state,
-        {
-          id: ++lastId,
-          description: action.payload.description,
-          resolve: false,
-        },
-      ];
+//reducers
+let lastId = 0;
 
-    case bugRemove.type:
-      return state.filter((bug) => bug.id !== action.payload.id);
+export default createReducer([], {
+  //key:value
+  //action:function(event=>eventHandler)
+  //where keys are action and value are updated value
+  [bugAdded.type]: (bug, action) => {
+    bug.push({
+      id: ++lastId,
+      description: action.payload.description,
+      resolve: false,
+    });
+  },
 
-    case bugResolved.type:
-      return state.map((bug) =>
-        bug.id !== action.payload.id ? bug : { ...bug, resolve: true }
-      );
+  [bugResolved.type]:(bug,action)=>{
+    const index = bug.findIndex(bug=>bug.id ===action.payload.id );
+    bug[index].resolve = true;
 
-    default:
-      return state;
   }
-}
+});
+
+
