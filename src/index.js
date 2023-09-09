@@ -1,5 +1,5 @@
-import configureAppStore  from "./store/configureStore";
-import * as actionCreator from "./store/bug";
+import configureAppStore from "./store/configureStore";
+import { bugAdded, bugResolved,getUnresolvedBugs} from "./store/bug";
 import { projectCreated } from "./store/project";
 // store.state = 1;
 
@@ -10,13 +10,15 @@ store.subscribe(() => {
   console.log("store changed");
 });
 
-store.dispatch(projectCreated({description:"Project 1"}))
-store.dispatch(actionCreator.bugAdded({description:"Bug 1"}));
-store.dispatch(actionCreator.bugAdded({description:"Bug 2"}));
-store.dispatch(actionCreator.bugAdded({description:"Bug 3"}));
-store.dispatch(actionCreator.bugResolved({id:1}));
+store.dispatch(projectCreated({ description: "Project 1" }));
+store.dispatch(bugAdded({ description: "Bug 1" }));
+store.dispatch(bugAdded({ description: "Bug 2" }));
+store.dispatch(bugAdded({ description: "Bug 3" }));
+store.dispatch(bugResolved({ id: 1 }));
 
-console.log(store.getState());
+const x = getUnresolvedBugs(store.getState());
+const y = getUnresolvedBugs(store.getState());
+console.log(x===y)
 
 // import store from "./store";
 // import { bugAdded, bugResolved } from "./actions";
