@@ -1,5 +1,6 @@
 import configureAppStore  from "./store/configureStore";
 import * as actionCreator from "./store/bug";
+import { projectCreated } from "./store/project";
 // store.state = 1;
 
 // console.log(store)
@@ -8,6 +9,8 @@ const store = configureAppStore();
 store.subscribe(() => {
   console.log("store changed");
 });
+
+store.dispatch(projectCreated({description:"Project 1"}))
 store.dispatch(actionCreator.bugAdded({description:"Bug 1"}));
 store.dispatch(actionCreator.bugAdded({description:"Bug 2"}));
 store.dispatch(actionCreator.bugAdded({description:"Bug 3"}));
