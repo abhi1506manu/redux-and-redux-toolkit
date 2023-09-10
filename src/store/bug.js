@@ -21,11 +21,18 @@ const slice = createSlice({
       const index = bug.findIndex(bug=>bug.id ===action.payload.id );
       bug[index].resolve = true;
 
+    },
+
+    bugAssignedToUser:(bug,action)=>{
+      const {bugId, userId} = action.payload;
+      const index = bug.findIndex(bug => bug.id == bugId);
+      bug[index].userId = userId;
+
     }
   }
 })
 
-export const {bugAdded,bugResolved} = slice.actions;
+export const {bugAdded,bugResolved, bugAssignedToUser} = slice.actions;
 
 export default slice.reducer;
 
@@ -40,6 +47,13 @@ export default slice.reducer;
   state => state.entities.project,
   (bug,project)=>bug.filter(bug => !bug.resolve)
 
+)
+
+
+
+export const getBugsByUser =userId=> createSelector(
+  state => state.entities.bug,
+  bug => bug.filter(bug => bug.userId ===userId )
 )
 
 
